@@ -9,7 +9,7 @@ interface TODO_RESULT {
 
 function App() {
 
-  const [todos, setTodo] = useState<Array<TODO_RESULT>>([]);
+  const [todos, setTodo] = useState<TODO_RESULT[]>([]);
 
   const returnedValue = (result : TODO_RESULT) => {
     setTodo(prevItems => [...prevItems, result]);

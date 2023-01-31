@@ -7,7 +7,6 @@ interface TODO_RESULT {
   title: string;
 }
 
-
 interface Props {
   title: string;
   id: string;
@@ -19,6 +18,7 @@ export default function Task(props: Props) {
   const [checked, setChecked] = useState<boolean>(false);
   const [updateTab, setUpdateTap] = useState<boolean>(false);
   const [activeTab, setActiveTab] = useState<boolean>(false);
+  const [UpdateFormState, setUpdateFormState] = useState<boolean>(false);
 
   const inputIdRef = useRef<HTMLInputElement>(null);
   const updatedItemRef = useRef<HTMLInputElement>(null);
@@ -30,14 +30,25 @@ export default function Task(props: Props) {
 
   const updateHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const result : TODO_RESULT = {
-      id : inputIdRef!.current!.value,
-      title :updatedItemRef!.current!.value
-    }
-    props.updatedTask(result);
-    updatedItemRef!.current!.value = "";
-  }
 
+    const id = inputIdRef!.current!.value;
+    const title = updatedItemRef!.current!.value;
+
+    if (id !== "" && title !== "") {
+      const result: TODO_RESULT = {
+        id: id,
+        title: title,
+      };
+      props.updatedTask(result);
+      updatedItemRef!.current!.value = "";
+      setUpdateFormState(false);
+      setUpdateTap(false);
+    }
+  };
+
+  const inputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.target.value !== "" ? setUpdateFormState(true) : setUpdateFormState(false);
+  };
 
   return (
     <div>
@@ -92,13 +103,16 @@ export default function Task(props: Props) {
           <input
             type="text"
             ref={updatedItemRef}
+            onChange={inputChangeHandler}
             className="bg-slate-800 text-white w-full block py-2 px-3 rounded focus:outline-none"
             placeholder="Updated task name..."
           />
           <button
-            className={`bg-slate-500  duration-200 px-8 py-0.5 rounded-full`}
+            className={`${
+              UpdateFormState ? "bg-opacity-100 hover:scale-90" : "bg-opacity-30"
+            } bg-slate-500  duration-200 px-8 py-0.5 rounded-full`}
           >
-            Update
+            Add
           </button>
         </form>
       )}
