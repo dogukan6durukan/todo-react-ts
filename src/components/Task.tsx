@@ -1,6 +1,5 @@
 import React, { useState, useRef } from "react";
-import { MdModeEdit } from "react-icons/md";
-import { MdDelete } from "react-icons/md";
+import { MdModeEdit, MdDelete } from "react-icons/md";
 
 interface TODO_RESULT {
   id: string;
@@ -76,7 +75,7 @@ export default function Task(props: Props) {
             <li className="hover:text-blue-400">
               <button
                 onClick={() =>
-                  updateTab ? setUpdateTap(false) : setUpdateTap(true)
+                  updateTab ? setUpdateTap(false) : (setUpdateTap(true), setActiveTab(false)) 
                 }
               >
                 Update Task <MdModeEdit className="inline-block mb-1" />
