@@ -75,7 +75,7 @@ export default function Task(props: Props) {
             <li className="hover:text-blue-400">
               <button
                 onClick={() =>
-                  updateTab ? setUpdateTap(false) : (setUpdateTap(true), setActiveTab(false)) 
+                  updateTab ? (setUpdateTap(false), setActiveTab(false))  : (setUpdateTap(true), setActiveTab(false), setUpdateFormState(false)) 
                 }
               >
                 Update Task <MdModeEdit className="inline-block mb-1" />
@@ -104,14 +104,14 @@ export default function Task(props: Props) {
             ref={updatedItemRef}
             onChange={inputChangeHandler}
             className="bg-slate-800 text-white w-full block py-2 px-3 rounded focus:outline-none"
-            placeholder="Updated task name..."
+            placeholder="New task name..."
           />
           <button
             className={`${
               UpdateFormState ? "bg-opacity-100 hover:scale-90" : "bg-opacity-30"
             } bg-slate-500  duration-200 px-8 py-0.5 rounded-full`}
-          >
-            Add
+            disabled={UpdateFormState ? false : true}>
+            Update
           </button>
         </form>
       )}
